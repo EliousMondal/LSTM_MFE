@@ -3,6 +3,7 @@ import numba as nb
 
 import param_Frenkel as param
 import frenkel_biexciton as model
+import initBathMPI as iB
     
 
 @nb.jit(nopython=True)
@@ -49,13 +50,14 @@ def evolve_ψR(R, P, ψ, δt):
 
 
 @nb.jit(nopython=True)
-def evolve(R, P, nSteps):
+def evolve(nSteps):
     ψt        = np.zeros((nSteps, 2), dtype=np.complex128)
     ψt[0, :]  = param.initψ
     
+    R, P      = iB.initR()
     δεt       = np.zeros((nSteps, 2), dtype=np.float64)
     δεt[0, :] = model.H_sb(R)
-    
+
     for iStep in range(1, nSteps):
         ψt[iStep, :], R, P = evolve_ψR(R, P, ψt[iStep-1, :], param.dtN)
         δεt[iStep, :]      = model.H_sb(R)

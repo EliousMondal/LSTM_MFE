@@ -23,22 +23,27 @@ for i in range(NRem):
         TaskArray.append((NTasks*size)+i)
         
 # compiling the code
-ixp_dum         = np.loadtxt(f"Data/1/iRP_1_λ{param.λ}.txt")
-R_dum, P_dum    = ixp_dum[:, 0], ixp_dum[:, 1]
-ψt_dum, δεt_dum = method.evolve(R_dum, P_dum, 2)
+# ixp_dum         = np.loadtxt(f"Data/1/iRP_1_λ{param.λ}.txt")
+# R_dum, P_dum    = ixp_dum[:, 0], ixp_dum[:, 1]
+# ψt_dum, δεt_dum = method.evolve(R_dum, P_dum, 2)
+ψt_dum, δεt_dum = method.evolve(2)
         
 st_rank = time.time()
   
 for iTraj in TaskArray:
     st_traj  = time.time()
     
-    ixp      = np.loadtxt(f"Data/{iTraj+1}/iRP_{iTraj+1}_λ{param.λ}.txt")
-    R, P     = ixp[:, 0], ixp[:, 1]
-    ψt, δεt  = method.evolve(R, P, param.NSteps)
+    # ixp      = np.loadtxt(f"Data/{iTraj+1}/iRP_{iTraj+1}_λ{param.λ}.txt")
+    # R, P     = ixp[:, 0], ixp[:, 1]
+    # ψt, δεt  = method.evolve(R, P, param.NSteps)
+    ψt, δεt  = method.evolve(param.NSteps)
     
     ed_traj  = time.time()
     print(f"Time for trajectory {iTraj+1} = {np.round(ed_traj-st_traj, 8)}", flush=True)
+    
+    os.makedirs(f"Data/{iTraj+1}", exist_ok=True)
     np.savetxt(f"Data/{iTraj+1}/psi_t_{iTraj+1}_λ{param.λ}.txt", ψt)
+    np.savetxt(f"Data/{iTraj+1}/energy_t_{iTraj+1}_λ{param.λ}.txt", δεt)
     
 ed_rank = time.time()
 print(f"Process {rank} took {np.round(ed_rank - st_rank, 8)} seconds for computing {len(TaskArray)} trajectories.")

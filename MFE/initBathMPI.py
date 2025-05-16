@@ -1,26 +1,29 @@
 import numpy as np
+import numba as nb
 from numpy import random as rd
-from mpi4py import MPI
+
+# from mpi4py import MPI
 import time 
 
-import os
-import sys
+# import os
+# import sys
 
 import param_Frenkel as param
 
-comm = MPI.COMM_WORLD
-rank = comm.Get_rank()
-size = comm.Get_size()
+# comm = MPI.COMM_WORLD
+# rank = comm.Get_rank()
+# size = comm.Get_size()
 
-TrajDir     = sys.argv[1]
-NTraj       = param.NTraj
-NTasks      = NTraj//size
-NRem        = NTraj - (NTasks*size)
-TaskArray   = [i for i in range(rank * NTasks , (rank+1) * NTasks)]
-for i in range(NRem):
-    if i == rank: 
-        TaskArray.append((NTasks*size)+i)
+# TrajDir     = sys.argv[1]
+# NTraj       = param.NTraj
+# NTasks      = NTraj//size
+# NRem        = NTraj - (NTasks*size)
+# TaskArray   = [i for i in range(rank * NTasks , (rank+1) * NTasks)]
+# for i in range(NRem):
+#     if i == rank: 
+#         TaskArray.append((NTasks*size)+i)
 
+@nb.jit(nopython=True)
 def initR():
     '''Sampling the initial position and velocities of bath parameters from 
        wigner distribution'''
@@ -43,15 +46,15 @@ def initR():
     return R, P
 
 
-st = time.time()
-os.chdir(TrajDir)
-for itraj in TaskArray:
-    print(itraj+1, flush=True)
-    os.makedirs(f"{itraj+1}", exist_ok=True)
-    os.chdir(f"{itraj+1}")
-    R0, P0 = initR()
-    np.savetxt(f"iRP_{itraj+1}_λ{param.λ}.txt", np.array([R0, P0]).T, fmt='%24.16f')
-    os.chdir("../")
+# st = time.time()
+# os.chdir(TrajDir)
+# for itraj in TaskArray:
+#     print(itraj+1, flush=True)
+#     os.makedirs(f"{itraj+1}", exist_ok=True)
+#     os.chdir(f"{itraj+1}")
+#     R0, P0 = initR()
+#     np.savetxt(f"iRP_{itraj+1}_λ{param.λ}.txt", np.array([R0, P0]).T, fmt='%24.16f')
+#     os.chdir("../")
     
-ed = time.time()
-print(f"jobs for rank {rank} finished in {ed-st} seconds")
+# ed = time.time()
+# print(f"jobs for rank {rank} finished in {ed-st} seconds")
