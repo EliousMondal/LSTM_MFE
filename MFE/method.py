@@ -31,6 +31,23 @@ def evolve_ψ(R, ψ, δt):
 
 @nb.jit(nopython=True)
 def evolve_R(R, P, ψ, δt):
+    """
+    Description:
+        Evolves the bath according to ∂ₜ²R = -⟨∂H/∂R⟩ for a small time step δt.
+    Input     : 
+        1) R  → current position coordinates of the bath
+        2) P  → current momentum coordinates of the bath
+        3) ψ  → current wavefunction of the system
+        4) δt → nuclear time step
+    Output    :
+        The evolved R(δt) and P(δt)
+    Procedure :
+        1) Compute the electronic force on the nuclei at R → F₁
+        2) Update R according to P and F1 -> R(δt) = R + Pδt + F₁δt²/2
+        3) Compute the electronic force on the nuclei at R(δt) → F₂
+        4) Update P according to → P(δt) = P + (F₁ + F₂)δt²/2
+    """
+    
     F1       = model.F_nν(R, ψ)
     R_δt     = R + (P * δt) + (0.5 * F1 * δt ** 2)
     
@@ -41,6 +58,21 @@ def evolve_R(R, P, ψ, δt):
 
 @nb.jit(nopython=True)
 def evolve_ψR(R, P, ψ, δt):
+    """
+    Description:
+        Evolves the both system and bath with Trotter steps for a small time step δt.
+    Input     : 
+        1) R  → current position coordinates of the bath
+        2) P  → current momentum coordinates of the bath
+        3) ψ  → current wavefunction of the system
+        4) δt → nuclear time step
+    Output    :
+        The evolved ψ(δt), R(δt), P(δt)
+    Procedure :
+        1) Evolve ψ for half nuclear time step using R and P → ψ(δt/2)
+        2) Evolve R and P using ψ(δt/2) → R(δt), P(δt)
+        3) Evolve ψ for half nuclear time step using R(δt), P(δt) → ψ(δt)
+    """
     
     ψ_δt_hf    = evolve_ψ(R, ψ, δt/2)          # half-step system evolution
     R_δt, P_δt = evolve_R(R, P, ψ_δt_hf, δt)   # Bath evolution
@@ -51,6 +83,20 @@ def evolve_ψR(R, P, ψ, δt):
 
 @nb.jit(nopython=True)
 def evolve(nSteps):
+    """
+    Description:
+        Evolves the both system and bath for nsteps.
+    Input     : 
+        nSteps → number of total nuclear time steps in the simulation
+    Output    :
+        Time evolved wavefunction ψ(t) and system energy fulctutations δε(t)
+    Procedure :
+        1) Initialize ψ(0) and an empty array to store ψ(t)
+        2) Initialize R(0), P(0) 
+        3) Create empty array to store δε(t) and compute δε(0) using R(0)
+        4) Evolve ψ(t), R(t) and P(t) for nSteps
+    """
+    
     ψt        = np.zeros((nSteps, 2), dtype=np.complex128)
     ψt[0, :]  = param.initψ
     
