@@ -1,7 +1,7 @@
 # MFE
 This is a database for doing Mean Field Ehrenfest dynamics on simple systems like Frenkel-Biexciton and Spin-Boson models.
 We work on basic system-bath models
-```
+```math
     \hat{\mathrm{H}} = \hat{\mathrm{H}}_{\mathrm{s}} + \hat{\mathrm{H}}_{\mathrm{b}} + \hat{\mathrm{H}}_{\mathrm{sb}}
 ```
 The Ehrenfest dynamics evolves the system degrees of freedom (DOF) using the Schrodinger equation
