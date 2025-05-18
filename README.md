@@ -24,3 +24,32 @@ The basic dependencies for running the code serially are
 
 If you also want to run the parallelized verison of the code you must have 
 - `mpi4py`
+
+## Structure of the code
+The MFE code is divided into various sub-files each having its own specific purpose.
+
+
+#### `frenkel_biexciton.py`
+This file contails the definitions of the system dependent functions. 
+- `H_sb` contains the feedback of the bath to the system energies
+- `H_sys` defines the system Hamiltonian at a specfic set of bath positions
+- `F_nν` defines the force on the bath coordinates due to system dynamics
+
+#### `param_Frenkel.py`
+Conatins the parameters necessary for the MFE simulation along with the conversion factor of fundamental constants to atomic units
+
+#### `method.py`
+Contains the functions to perform dynamics.
+- `evolve_ψ` evolves the current wavefunction for a small time step δt
+- `evolve_R` evolves the current bath coordinates for a small time step δt
+- `evolve_ψR` does the time evolution of both R and ψ for a small time step δt
+- `evolve` Does a full time-dependent dynamics of both R and ψ by using the above functions. 
+
+#### `dynamicsSerial.py`
+Performs the dynamics of `NTraj` number of trajectories and saves the data for each trajectory in the folder `Data/iTraj` where `iTraj` is the index of trajectory.
+
+
+## Usage
+To run the serial version of the code, proceed with the following steps
+- make a directory `Data`
+- run the code by using the command `python dynamics.py Data/`
