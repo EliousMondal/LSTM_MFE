@@ -16,3 +16,11 @@ The bath degrees of freedom evolve according to the Newton's equations of motion
 # Fenkel Bi-exciton model
 The simple Frenkel excitons consists of two states electronically coupled while having their own dephasing environments.
 <img src="https://latex.codecogs.com/svg.image?\hat{\mathrm{H}}=\varepsilon\sigma_{\mathrm{z}}&plus;\Delta\sigma_{\mathrm{z}}&plus;\sum_{i=1}^{2}\left(\frac{\hat{P}_{i,\nu}^{2}}{2}&plus;\frac{1}{2}\omega_{i,\nu}^2\hat{R}_{i,\nu}^{2}\right)&plus;\sum_{i,\nu}g_{i,\nu}\hat{R}_{i,\nu}|i\rangle\langle&space;i|" />
+
+## Dependencies
+The basic dependencies for running the code serially are
+- `numpy`
+- `numba`
+
+If you also want to run the parallelized verison of the code you must have 
+- `mpi4py`
