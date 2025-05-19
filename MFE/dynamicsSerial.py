@@ -10,7 +10,7 @@ import method
 # compiling the functions
 ψt_dum, δεt_dum = method.evolve(2)
         
-st_rank = time.time()
+st_run = time.time()
   
 for iTraj in range(param.NTraj):
     st_traj  = time.time()
@@ -22,5 +22,5 @@ for iTraj in range(param.NTraj):
     np.savetxt(f"Data/{iTraj+1}/psi_t_{iTraj+1}_λ{param.λ}.txt", ψt)
     np.savetxt(f"Data/{iTraj+1}/energy_t_{iTraj+1}_λ{param.λ}.txt", δεt)
     
-ed_rank = time.time()
-print(f"Process {rank} took {np.round(ed_rank - st_rank, 8)} seconds for computing {len(TaskArray)} trajectories.")
+ed_run = time.time()
+print(f"Dynamics took {np.round(ed_run - st_run, 8)} seconds for computing {param.NTraj} trajectories.")
