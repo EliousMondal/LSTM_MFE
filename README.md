@@ -52,4 +52,4 @@ Performs the dynamics of `NTraj` number of trajectories and saves the data for e
 ## Usage
 To run the serial version of the code, proceed with the following steps
 - make a directory `Data`
-- run the code by using the command `python dynamics.py Data/`
+- run the code by using the command `python dynamicsSerial.py Data/`
