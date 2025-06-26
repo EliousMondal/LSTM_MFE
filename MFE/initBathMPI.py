@@ -2,26 +2,7 @@ import numpy as np
 import numba as nb
 from numpy import random as rd
 
-# from mpi4py import MPI
-import time 
-
-# import os
-# import sys
-
 import param_Frenkel as param
-
-# comm = MPI.COMM_WORLD
-# rank = comm.Get_rank()
-# size = comm.Get_size()
-
-# TrajDir     = sys.argv[1]
-# NTraj       = param.NTraj
-# NTasks      = NTraj//size
-# NRem        = NTraj - (NTasks*size)
-# TaskArray   = [i for i in range(rank * NTasks , (rank+1) * NTasks)]
-# for i in range(NRem):
-#     if i == rank: 
-#         TaskArray.append((NTasks*size)+i)
 
 @nb.jit(nopython=True)
 def initR():
@@ -39,22 +20,7 @@ def initR():
     P = np.zeros(param.NModes)
     for n in range(param.NModes // param.Modes):
         for ν in range(param.Modes):
-            # print(f"n = {n}, ν = {ν}, n_ν = {ν + n * param.Modes}")
             R[ν + n * param.Modes] = rd.normal(μR_wigner, σR_wigner[ν])
             P[ν + n * param.Modes] = rd.normal(μP_wigner, σP_wigner[ν])
 
     return R, P
-
-
-# st = time.time()
-# os.chdir(TrajDir)
-# for itraj in TaskArray:
-#     print(itraj+1, flush=True)
-#     os.makedirs(f"{itraj+1}", exist_ok=True)
-#     os.chdir(f"{itraj+1}")
-#     R0, P0 = initR()
-#     np.savetxt(f"iRP_{itraj+1}_λ{param.λ}.txt", np.array([R0, P0]).T, fmt='%24.16f')
-#     os.chdir("../")
-    
-# ed = time.time()
-# print(f"jobs for rank {rank} finished in {ed-st} seconds")
