@@ -19,7 +19,7 @@ print(ω_ch_cm, λ_cm)
 
 ω_ch        = ω_ch_cm * cminv2au                    # characteristic frequency 
 λ           = λ_cm * cminv2au                       # Reorganisation energy
-N           = 20                                    # Number of modes needed
+N           = 100                                   # Number of modes needed
 ω_ct        = 250 * ω_ch                            # cutoff frequency
 ω           = np.linspace(0.00000001, ω_ct, 30000)
 dω          = ω[1]-ω[0]
@@ -40,7 +40,8 @@ print(λs/4/cminv2au)
 for i in range(N):
     # costfunc = np.abs(Fω-(((i-0.5)/N)*λs))
     costfunc = np.abs(Fω-(((i+0.5)/N)*λs))                  # correct formula is +
-    ωj[i] = ω[np.where(costfunc == np.min(costfunc))[0]]
+    # print(np.where(costfunc == np.min(costfunc))[0])
+    ωj[i] = ω[np.where(costfunc == np.min(costfunc))[0][0]]
 cj = ωj * ((λs/(2*N))**0.5)
 
 np.savetxt(f"ωj_{ω_ch_cm}_{λ_cm}_N{N}.txt",ωj)
