@@ -21,7 +21,7 @@ plt.plot(τ_array,  σz,  lw=4, ls="-", color="#e74c3c", label="σz")
 # plt.plot(τ_array, δε2/np.max(δε2), lw=2, ls="-", color="#f39c12", label="ε2")
 
 plt.xlim(0, param.SimTime)
-# plt.ylim(-0.1 ,1.1)
+plt.ylim(-0.3 ,1.1)
 plt.xticks([0, 100, 200, 300, 400, 500], fontsize=15)
 # plt.xticks([0, 200, 400, 600, 800, 1000], fontsize=15)
 plt.yticks([-0.25, 0.0, 0.25, 0.5, 0.75, 1.0], fontsize=15)
