@@ -8,7 +8,7 @@ K2au       = 0.00000316678                     # K to au
 Kb         = 8.617333262*1e-5 * eV2au / K2au   # Boltzmann constant in au
 
 # Trajectory parameters
-NTraj      = 2000                             # Total number oftrajectories
+NTraj      = 1000                              # Total number oftrajectories
 SimTime    = 500                               # Total simulation time (fs) 
 δt_fs      = 0.5                               # Bath time step (fs)
 dtN        = δt_fs * fs2au                                               

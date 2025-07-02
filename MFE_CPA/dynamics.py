@@ -21,29 +21,32 @@ TaskArray   = [i for i in range(rank * NTasks , (rank+1) * NTasks)]
 for i in range(NRem):
     if i == rank: 
         TaskArray.append((NTasks*size)+i)
+print(TaskArray)
         
 # compiling the code
-# ixp_dum         = np.loadtxt(f"Data/1/iRP_1_λ{param.λ}.txt")
+# ixp_dum         = np.loadtxt(f"Data/1/iRP_1_λ150.txt")
 # R_dum, P_dum    = ixp_dum[:, 0], ixp_dum[:, 1]
-# ψt_dum, δεt_dum = method.evolve(R_dum, P_dum, 2)
-ψt_dum, δεt_dum = method.evolve(2)
+ψtd, δεtd, δεcd = method.evolve_CPA(2)
+# ψt_dum, δεt_dum = method.evolve(2)
         
 st_rank = time.time()
   
 for iTraj in TaskArray:
     st_traj  = time.time()
     
-    # ixp      = np.loadtxt(f"Data/{iTraj+1}/iRP_{iTraj+1}_λ{param.λ}.txt")
-    # R, P     = ixp[:, 0], ixp[:, 1]
-    # ψt, δεt  = method.evolve(R, P, param.NSteps)
-    ψt, δεt  = method.evolve(param.NSteps)
+    # ixp          = np.loadtxt(f"Data/{iTraj+1}/iRP_{iTraj+1}_λ150.txt")
+    # iR, iP       = ixp[:, 0], ixp[:, 1]
+    # iR, iP       = np.loadtxt(f"Data/{iTraj+1}/iRP_{iTraj+1}_λ150.txt")
+    # print("file loaded")
+    ψt, δεt, δεc = method.evolve_CPA(param.NSteps)
     
-    ed_traj  = time.time()
-    print(f"Time for trajectory {iTraj+1} = {np.round(ed_traj-st_traj, 8)}", flush=True)
+#     ed_traj  = time.time()
+#     print(f"Time for trajectory {iTraj+1} = {np.round(ed_traj-st_traj, 8)}", flush=True)
     
     os.makedirs(f"Data/{iTraj+1}", exist_ok=True)
-    np.savetxt(f"Data/{iTraj+1}/psi_t_{iTraj+1}_λ{param.λ}.txt", ψt)
-    np.savetxt(f"Data/{iTraj+1}/energy_t_{iTraj+1}_λ{param.λ}.txt", δεt)
+    np.savetxt(f"Data/{iTraj+1}/psi_t_{iTraj+1}_λ150.txt", ψt)
+    np.savetxt(f"Data/{iTraj+1}/energy_t_{iTraj+1}_λ150.txt", δεt)
+    np.savetxt(f"Data/{iTraj+1}/energy_t_{iTraj+1}_λ150_CPA.txt", δεc)
     
 ed_rank = time.time()
 print(f"Process {rank} took {np.round(ed_rank - st_rank, 8)} seconds for computing {len(TaskArray)} trajectories.")

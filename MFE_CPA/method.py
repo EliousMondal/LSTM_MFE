@@ -109,3 +109,40 @@ def evolve(nSteps):
         δεt[iStep, :]      = model.H_sb(R)
     
     return ψt, δεt
+
+
+@nb.jit(nopython=True)
+def evolve_R_CPA(Rcpa, Pcpa, δt):
+    
+    F1       = -param.ω_nν_NM_sq * Rcpa
+    R_δt     = Rcpa + (Pcpa * δt) + (0.5 * F1 * δt ** 2)
+    
+    F2       = -param.ω_nν_NM_sq * R_δt 
+    P_δt     = Pcpa + 0.5 * (F1 + F2) * δt
+    
+    return R_δt, P_δt
+
+
+@nb.jit(nopython=True)
+def evolve_CPA(nSteps):
+    
+    ψt        = np.zeros((nSteps, 2), dtype=np.complex128)
+    ψt[0, :]  = param.initψ
+    
+    R, P      = iB.initR()
+    Rc, Pc    = R[:], P[:]
+    
+    δεt       = np.zeros((nSteps, 2), dtype=np.float64)
+    δεt[0, :] = model.H_sb(R)
+    
+    δεc       = np.zeros_like(δεt)
+    δεc[0, :] = model.H_sb(Rc)
+
+    for iStep in range(1, nSteps):
+        ψt[iStep, :], R, P = evolve_ψR(R, P, ψt[iStep-1, :], param.dtN)
+        δεt[iStep, :]      = model.H_sb(R)
+        
+        Rc, Pc             = evolve_R_CPA(Rc, Pc, param.dtN)
+        δεc[iStep, :]      = model.H_sb(Rc)
+    
+    return ψt, δεt, δεc
