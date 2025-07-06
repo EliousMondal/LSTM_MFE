@@ -8,5 +8,7 @@ As an example of the file name `psiF_t_2_10.txt`, this represents the forward wa
 
 Similarly an example of the file name `energy_CPA_t_2_10.txt`, this represents the energy (with Classical Path Approximation) of the 2nd trajectory (`2` part of the filename) for an initial coherence element of `10` or $|1⟩⟨0|$ (represented by `10` part of the filename). The data are of `np.complex128` datatype.
 
+The `model1_monomer/example_dynamics` contains some representative data for trajectories 1 and 2.
+
 ### The initial goal
 We try to train the `psiF_t_2_10.txt` with `energy_CPA_t_2_10.txt` for all the trajectories (the `2` in the file name will be replaced by the trajectory index).
