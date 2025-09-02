@@ -36,11 +36,12 @@ st_rank = time.time()
 for iTraj in TaskArray:
     st_traj  = time.time()
     iR0, iP0 = iBth.initR()  
+    os.makedirs(f"Data/{iTraj+1}", exist_ok=True)
     
     for iState in range(μMat_sp.shape[0]):
         iF, iB   = μMat_id[iState]
         R, P     = iR0[:], iP0[:]
-        ψFt, ψBt = method.evolve(R, P, param.NSteps, iF, iB)
+        ψFt, ψBt, δεt, δεc = method.evolve(R, P, param.NSteps, iF, iB)
     
         np.savetxt(f"Data/{iTraj+1}/psiF_t_{iTraj+1}_{iF}{iB}.txt", ψFt)
         np.savetxt(f"Data/{iTraj+1}/psiB_t_{iTraj+1}_{iF}{iB}.txt", ψBt)

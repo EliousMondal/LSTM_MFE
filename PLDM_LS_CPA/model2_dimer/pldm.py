@@ -73,7 +73,7 @@ def evolve(R, P, nSteps, iF, iB):
     ψBt     = np.zeros((nSteps, param.NStates), dtype=np.complex128)
     ψFt[0, :], ψBt[0, :] = initψ(iF, iB)
     
-    δεt       = np.zeros((nSteps, param.NStates), dtype=np.float64)
+    δεt       = np.zeros((nSteps, 2), dtype=np.float64)
     δεt[0, :] = model.H_sb(R)
     
     Rc, Pc    = R[:], P[:]
