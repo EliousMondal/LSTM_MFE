@@ -35,14 +35,17 @@ st_rank = time.time()
   
 for iTraj in TaskArray:
     st_traj  = time.time()
+    iR0, iP0 = iBth.initR()  
     
     for iState in range(μMat_sp.shape[0]):
         iF, iB   = μMat_id[iState]
-        R, P     = iBth.initR()  
+        R, P     = iR0[:], iP0[:]
         ψFt, ψBt = method.evolve(R, P, param.NSteps, iF, iB)
     
         np.savetxt(f"Data/{iTraj+1}/psiF_t_{iTraj+1}_{iF}{iB}.txt", ψFt)
         np.savetxt(f"Data/{iTraj+1}/psiB_t_{iTraj+1}_{iF}{iB}.txt", ψBt)
+        np.savetxt(f"Data/{iTraj+1}/energy_t_{iTraj+1}_{iF}{iB}.txt", δεt, fmt='%20.10f')
+        np.savetxt(f"Data/{iTraj+1}/energy_CPA_t_{iTraj+1}_{iF}{iB}.txt", δεc, fmt='%20.10f')
     
     ed_traj  = time.time()
     print(f"Time for trajectory {iTraj+1} = {np.round(ed_traj-st_traj, 8)}", flush=True)

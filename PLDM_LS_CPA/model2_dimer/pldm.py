@@ -45,6 +45,18 @@ def evolve_R(R, P, ψF, ψB, δt):
 
 
 @nb.jit(nopython=True)
+def evolve_R_CPA(Rcpa, Pcpa, δt):
+    
+    F1       = -param.ω_nν_sq * Rcpa
+    R_δt     = Rcpa + (Pcpa * δt) + (0.5 * F1 * δt ** 2)
+    
+    F2       = -param.ω_nν_sq * R_δt 
+    P_δt     = Pcpa + 0.5 * (F1 + F2) * δt
+    
+    return R_δt, P_δt
+
+
+@nb.jit(nopython=True)
 def evolve_ψR(R, P, ψF, ψB, δt):
     
     ψF_hf, ψB_hf = evolve_ψ(R, ψF, ψB, δt/2)          # half-step system evolution
@@ -61,7 +73,18 @@ def evolve(R, P, nSteps, iF, iB):
     ψBt     = np.zeros((nSteps, param.NStates), dtype=np.complex128)
     ψFt[0, :], ψBt[0, :] = initψ(iF, iB)
     
+    δεt       = np.zeros((nSteps, param.NStates), dtype=np.float64)
+    δεt[0, :] = model.H_sb(R)
+    
+    Rc, Pc    = R[:], P[:]
+    δεc       = np.zeros_like(δεt)
+    δεc[0, :] = model.H_sb(Rc)
+    
     for iStep in range(1, nSteps):
         ψFt[iStep, :], ψBt[iStep, :], R, P = evolve_ψR(R, P, ψFt[iStep-1, :], ψBt[iStep-1, :], param.dtN)
-    
-    return ψFt, ψBt
+        δεt[iStep]      = model.H_sb(R)
+        
+        Rc, Pc          = evolve_R_CPA(Rc, Pc, param.dtN)
+        δεc[iStep]      = model.H_sb(Rc)
+        
+    return ψFt, ψBt, δεt, δεc

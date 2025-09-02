@@ -23,14 +23,14 @@ def wc2fs(val):
     return 1 / (wc2au * fs2au)
 
 # model_no    = 10
-ω_ch_cm     = 300
-λ_cm        = 300
+λ_cm        = 150
+ω_ch_cm     = 200
 # γ_fs        = 50
 
 # ω_ch        = fs2wc(γ_fs) * cminv2au              # characteristic frequency 
 ω_ch        = ω_ch_cm * cminv2au                    # characteristic frequency
 λ           = λ_cm * cminv2au                       # Reorganisation energy
-N           = 50                                    # Number of modes needed
+N           = 100                                   # Number of modes needed
 ω_ct        = 250 * ω_ch                            # cutoff frequency
 ω           = np.linspace(0.00000001, ω_ct, 30000)
 dω          = ω[1]-ω[0]

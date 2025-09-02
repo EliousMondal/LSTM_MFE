@@ -25,14 +25,14 @@ sampled    = 1
 
 Modes      = 100
 NModes     = (NStates-1) * Modes
-λ_cm       = 300
-ω_ch_cm    = 300
+λ_cm       = 150
+ω_ch_cm    = 200
 Kb         = 8.617333262*1e-5 * eV2au / K2au   # Boltzmann constant in au 
-T          = 300 * K2au
+T          = 72 * K2au
 β          = 1 / (Kb * T)
 # model_no   = 10
 
 
-g_nν       = np.loadtxt(f"BathParams/cj_Λ{λ_cm}_Ωc{ω_ch_cm}_N{Modes}.txt")
-ω_nν       = np.loadtxt(f"BathParams/wj_Λ{λ_cm}_Ωc{ω_ch_cm}_N{Modes}.txt")
+g_nν       = np.loadtxt(f"../BathParams/cj_Λ{λ_cm}_Ωc{ω_ch_cm}_N{Modes}.txt")
+ω_nν       = np.loadtxt(f"../BathParams/wj_Λ{λ_cm}_Ωc{ω_ch_cm}_N{Modes}.txt")
 ω_nν_sq    = np.hstack((ω_nν, ω_nν)) ** 2
