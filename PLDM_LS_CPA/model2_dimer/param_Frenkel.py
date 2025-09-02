@@ -30,7 +30,6 @@ NModes     = (NStates-1) * Modes
 Kb         = 8.617333262*1e-5 * eV2au / K2au   # Boltzmann constant in au 
 T          = 72 * K2au
 β          = 1 / (Kb * T)
-# model_no   = 10
 
 
 g_nν       = np.loadtxt(f"../BathParams/cj_Λ{λ_cm}_Ωc{ω_ch_cm}_N{Modes}.txt")

@@ -37,7 +37,7 @@ for omega in range(lenω):
     R1ω[omega] = -2 * np.sum(int_func) * δtN
     
 R1ω_area = np.sum(R1ω) * dω
-np.savetxt(f"absorption.txt",R1ω/np.abs(R1ω_area))
+np.savetxt(f"example_dynamics/absorption.txt",R1ω/np.abs(R1ω_area))
 
 # ref_data = np.loadtxt("/scratch/mmondal/specTest/pySpec/PySpec/LinearSpec/dimer/model4/absorption_dimer.txt", dtype=np.complex128)
 

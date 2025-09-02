@@ -1,27 +1,9 @@
 import numpy as np
 import numba as nb
 from numpy import random as rd
-# from mpi4py import MPI
+
 import time 
-
-# import os
-# import sys
-
 import param_Frenkel as param
-
-# comm = MPI.COMM_WORLD
-# rank = comm.Get_rank()
-# size = comm.Get_size()
-
-# # TrajDir     = sys.argv[1]
-# NTraj       = param.NTraj
-# NTasks      = NTraj//size
-# NRem        = NTraj - (NTasks*size)
-# TaskArray   = [i for i in range(rank * NTasks , (rank+1) * NTasks)]
-# for i in range(NRem):
-#     if i == rank: 
-#         TaskArray.append((NTasks*size)+i)
-
 
 @nb.jit(nopython=True)
 def initR():
@@ -43,20 +25,6 @@ def initR():
             P[ν + n * param.Modes] = rd.normal(μP_wigner, σP_wigner[ν])
 
     return R, P
-
-
-# st = time.time()
-# # os.chdir(TrajDir)
-# for iTraj in TaskArray:
-#     print(iTraj+1, flush=True)
-#     os.makedirs(f"Data/{iTraj+1}", exist_ok=True)
-#     # os.chdir(f"{iTraj+1}")
-#     R0, P0 = initR()
-#     np.savetxt(f"Data/{iTraj+1}/iRP_{iTraj+1}.txt", np.array([R0, P0]).T, fmt='%24.16f')
-#     # os.chdir("../")
-    
-# ed = time.time()
-# print(f"jobs for rank {rank} finished in {ed-st} seconds")
 
 # 300.0K → 208  cm⁻¹
 # 287.8K → 200  cm⁻¹

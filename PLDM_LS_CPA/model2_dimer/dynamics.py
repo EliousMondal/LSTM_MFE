@@ -8,7 +8,7 @@ import sys
 
 import param_Frenkel as param
 import pldm as method
-import initBathMPI as iBth
+import initBath as iBth
 
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
