@@ -23,7 +23,7 @@ NStates    = ε.shape[0] + 1
 ψ0         = 0
 sampled    = 1
 
-Modes      = 30
+Modes      = 100
 NModes     = (NStates-1) * Modes
 λ_cm       = 300
 ω_ch_cm    = 300
