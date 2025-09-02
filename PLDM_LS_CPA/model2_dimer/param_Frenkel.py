@@ -7,9 +7,9 @@ eV2au      = 0.036749405469679              # eV to au
 K2au       = 0.00000316678                  # K to au
 
 # Trajectory parameters
-NTraj      = 1000                           # Total number oftrajectories
-SimTime    = 500                            # Total simulation time (fs) 
-δt_fs      = 0.5                            # bath time step (fs)
+NTraj      = 50000                          # Total number oftrajectories
+SimTime    = 400                            # Total simulation time (fs) 
+δt_fs      = 0.1                            # bath time step (fs)
 dtN        = δt_fs * fs2au                                             
 NSteps     = int(SimTime / δt_fs) + 1
 

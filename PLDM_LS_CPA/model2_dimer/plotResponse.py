@@ -16,7 +16,7 @@ mR1t  = np.max(R1t[:, 0]**2 + R1t[:, 1]**2)
 t     = np.linspace(0, param.SimTime, param.NSteps)
 
 plt.plot(t, R1t[:, 0]/mR1t, lw=4, color="#e74c3c", label="Real")
-plt.plot(t, R1t[:, 1]/mR1t, lw=4, color="#3498db", label="Imag")
+# plt.plot(t, R1t[:, 1]/mR1t, lw=4, color="#3498db", label="Imag")
 plt.legend(frameon=False, fontsize=25, handlelength=0.5, handletextpad=0.25)
 
 plt.xlim(0, param.SimTime)
