@@ -43,7 +43,8 @@ for iTraj in TaskArray:
             μt = np.outer(ψFTraj[iStep, :], ψBTraj[iStep, :]) * μMat_val[iState]
             RtTraj[iStep] += 1j * np.trace(μt @ μxρ0)
         
-    np.savetxt(f"Data/{iTraj+1}/R1t_{iTraj+1}.txt", RtTraj)
+    # np.savetxt(f"Data/{iTraj+1}/R1t_{iTraj+1}.txt", RtTraj)
+    np.savetxt(f"Data/{iTraj+1}/R1t_{iTraj+1}.txt", np.array([RtTraj.real, RtTraj.imag]).T, fmt='%14.8f')
     Rt    += RtTraj[:]
     count += 1
 print(f"# trajectories = {count} in rank {rank}", flush=True)
@@ -53,5 +54,6 @@ et = time.time()
 
 if comm.rank == 0:
     RBf /= param.NTraj
-    np.savetxt(f"Data/R1t.txt", RBf)
+    # np.savetxt(f"Data/R1t.txt", RBf)
+    np.savetxt(f"Data/R1t.txt", np.array([RBf.real, RBf.imag]).T, fmt='%14.8f')
     print(f"Time taken = {et-st} seconds\n")

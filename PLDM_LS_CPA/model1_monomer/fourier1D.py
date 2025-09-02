@@ -20,7 +20,9 @@ lenω     = 1001
 ω        = np.linspace(ω_min, ω_max, lenω)
 dω       = ω[1]-ω[0]
 
-R1t      = np.loadtxt(f"Data/R1t.txt", dtype=np.complex128)
+# R1t      = np.loadtxt(f"Data/R1t.txt", dtype=np.complex128)
+R1t_dat  = np.loadtxt(f"Data/R1t.txt")
+R1t      = R1t_dat[:, 0] + 1j * R1t_dat[:, 1]
 R1dim    = R1t.shape[0]
 τ_array  = np.linspace(0, param.SimTime, param.NSteps) * fs2au
 δtN      = τ_array[1] - τ_array[0]
@@ -40,7 +42,7 @@ np.savetxt(f"absorption.txt",R1ω/np.abs(R1ω_area))
 # ref_data = np.loadtxt("/scratch/mmondal/specTest/pySpec/PySpec/LinearSpec/dimer/model4/absorption_dimer.txt", dtype=np.complex128)
 
 # Plotting frequency dependent response
-pω = np.linspace(ωmin, ωmax, lenω) / 1000 - 1.05
+pω = (np.linspace(ωmin, ωmax, lenω) / 1e3 - 1.05) * 1e3
 # plt.plot(pω, R1ω.real/np.abs(R1ω_area), lw=4)
 plt.plot(pω, -R1ω.imag/np.abs(R1ω_area), lw=4, color="#3498db")
 # plt.plot(pω, -R1ω.imag/np.max(-R1ω.imag), lw=4, color="#3498db", label="c-PLDM")
@@ -51,10 +53,10 @@ plt.ylabel(r"R$^{1}$(ω)", fontsize = 15)
 plt.xlim(np.min(pω), np.max(pω))
 # plt.ylim(0, np.max(-R1ω.imag/np.max(-R1ω.imag))+0.02)
 plt.ylim(0, np.max(-R1ω.imag/np.abs(R1ω_area))+0.2)
-plt.xticks([-0.5, -0.25, 0.0, 0.25, 0.5], fontsize=15)
+plt.xticks(np.array([-0.5, -0.25, 0.0, 0.25, 0.5]) * 1e3, fontsize=15)
 # plt.yticks([0, 0.2, 0.4, 0.6, 0.8, 1], fontsize=15)
 plt.yticks([0, 2, 4, 6, 8, 10], fontsize=15)
 plt.grid()
 # plt.savefig(f"absorption_compare.png", dpi=300, bbox_inches="tight")
-plt.savefig(f"R1ω_cPLDM.png", dpi=300, bbox_inches="tight")
+plt.savefig(f"example_dynamics/R1ω_cPLDM.png", dpi=300, bbox_inches="tight")
 plt.close()
